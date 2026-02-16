@@ -5,7 +5,15 @@ Rule-based freight load risk flagging API built with FastAPI.
 Problem
 
 Small freight brokerages often rely on manual checks to catch risky loads.
-This can lead to preventable losses from low margins, data entry errors, overweight shipments, and fraud-prone carrier selections.
+This leads to preventable losses from:
+
+Low margins
+
+Data entry errors
+
+Overweight shipments
+
+Fraud-prone carrier selections
 
 Sanity Checker evaluates a load and returns risk flags with a recommendation before the load is tendered.
 
@@ -36,18 +44,12 @@ Uvicorn
 Pydantic
 
 Run locally
-
-Create virtual environment:
-
+1. Create virtual environment
 python -m venv venv
 .\venv\Scripts\activate
-
-Install dependencies:
-
+2. Install dependencies
 pip install fastapi uvicorn
-
-Run the API:
-
+3. Run the API
 uvicorn app.main:api --reload
 
 Open Swagger:
@@ -58,36 +60,38 @@ Example Request
 POST /check_load
 
 {
-"origin": "Atlanta, GA",
-"destination": "Dallas, TX",
-"miles": 781,
-"customer_rate": 1000,
-"carrier_rate": 950,
-"equipment": "Dry Van",
-"weight": 47000,
-"pickup_date": "2026-02-16",
-"delivery_date": "2026-02-17",
-"commodity": "Electronics",
-"new_carrier": true,
-"carrier_mc_age_days": 12
+  "origin": "Atlanta, GA",
+  "destination": "Dallas, TX",
+  "miles": 781,
+  "customer_rate": 1000,
+  "carrier_rate": 950,
+  "equipment": "Dry Van",
+  "weight": 47000,
+  "pickup_date": "2026-02-16",
+  "delivery_date": "2026-02-17",
+  "commodity": "Electronics",
+  "new_carrier": true,
+  "carrier_mc_age_days": 12
 }
-
 Example Response
-
 {
-"risk_score": 80,
-"flags": [
-{ "type": "LOW_MARGIN", "severity": "HIGH" },
-{ "type": "NEW_MC_HIGH_VALUE", "severity": "CRITICAL" },
-{ "type": "DRY_VAN_OVERWEIGHT", "severity": "HIGH" }
-],
-"recommendation": "REVIEW BEFORE TENDER"
+  "risk_score": 80,
+  "flags": [
+    { "type": "LOW_MARGIN", "severity": "HIGH" },
+    { "type": "NEW_MC_HIGH_VALUE", "severity": "CRITICAL" },
+    { "type": "DRY_VAN_OVERWEIGHT", "severity": "HIGH" }
+  ],
+  "recommendation": "REVIEW BEFORE TENDER"
 }
-
 Roadmap
 
 Transit time feasibility rule
 
+Margin percentage thresholds
+
+Batch load evaluation endpoint
+
+Configurable rules via JSON
 Margin percentage thresholds
 
 Batch load evaluation endpoint
